@@ -59,13 +59,16 @@
 \author{Christopher Colahan\\ Simpson College}
 
 \begin{document}
-
+%title page
 \maketitle
 \newpage
 
+%table of contents page
 \tableofcontents
 \newpage
 
+
+%main content
 All ciphers can be defined as two functions, one called the enciphering function that takes a plaintext as input and outputs a ciphertext, and one called a deciphering function that takes a ciphertext as input and outputs the plaintext.
 
 For convenience, some common notation is used:
@@ -78,19 +81,19 @@ For convenience, some common notation is used:
 	$D(c)$ is the deciphering function.\\
 }
 
-
-\section{Transposition Ciphers}
+\section{Antiquated Cryptography}
+\subsection{Transposition Ciphers}
 A transposition cipher is a permutation of the plaintext.
 
-\section{Monoalphabetic Substitution Ciphers}
+\subsection{Monoalphabetic Substitution Ciphers}
 
-\subsection{Shift Ciphers}
+\subsubsection{Shift Ciphers}
 Shift ciphers work by shifting the symbols in the plaintext by an amount. For example, if we are using the English alphabet, then there are $n=26$ possible symbols. We could then choose some $k$, $0<k<n$ for our key. In our notation, this would look like
 $$E(p_i,k)=p_i+k\text{ (mod $n$)}.$$ (possibly cite abs alg textbook here?)
 To get the deciphering function, we shift backwards:
 $$D(c_i,k)=c_i-k\text{ (mod $n$)}.$$
 
-\subsection{Frequency Analysis}
+\subsubsection{Frequency Analysis}
 Shift ciphers are broken by frequency analysis. Below is a table that shows the letter frequency from a sample of English text.
 
 \begin{center}
@@ -172,28 +175,38 @@ Shift ciphers are broken by frequency analysis. Below is a table that shows the 
 \end{center}
 \cite[pg. 19]{codebook}
 
-\subsection{Homophonic Substitution Ciphers}
+\subsubsection{Homophonic Substitution Ciphers}
 A homophonic substitution cipher is a substitution cipher that maps each symbol to one of more symbols in order to prevent frequency analysis from being used. 
 
-For example, suppose we have 100 symbols $S=\{s_1,s_2,...s_100\}$. The the letter e would map to approximately 12 or those symbols, but the letter a would only map to about 8 of those symbols.
+For example, suppose we have 100 symbols $S=\{s_1,s_2,...s_{100}\}$. The letter $e$ would map to approximately 12 or those symbols, but the letter $a$ would only map to about 8 of those symbols.
 
 Before enciphering, each letter is replaced at random with one of the symbols it maps to. This means that each symbol in the ciphertext only appears with a frequency of about 1\%.
 
-\section{Polyalphabetic Substitution Ciphers}
+\subsection{Polyalphabetic Substitution Ciphers}
 A polyalphabetic substitution cipher uses multiple monoalphabetic substitution ciphers to generate more possibilities for the ciphertext.
 
-\subsection{Vigen\`{e}re Cipher}
+\subsubsection{Vigen\`{e}re Cipher}
 The vigen\`{e}re cipher uses 26 alphabets to encrypt plaintext. A key is also used that consists of a string of symbols. Given a plaintext symbol $p_i$ and a key symbol $k_j$, the ciphertext symbol $c_i$ is the character in the $i$ column and $j$ row.
 (insert vigen\`{e}re square here)
 (insert example here)
-\subsection{One Time Pad}
+\subsubsection{One Time Pad}
 The one time pad is a special vigen\`{e}re cipher where
 \begin{itemize}
 	\item the key is the same length as the plaintext,
 	\item the key is random, and
 	\item the same key is not used to encrypt two different plain texts.
 \end{itemize}
+There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}.
+\section{Modern Cryptography}
+\subsection{Private Key Cryptography}
+In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys.
+\subsection{Public Key Cryptography}
+In public key cryptography each user has two keys, a private key $k_{pri}$ and a public key $k_{pub}$. $k_{pub}$ is used for encrypting messages, while $k_{pri}$ is used for decrypting messages. Unfortunately, every user must have a list of the public keys for all users they wish to communicate with.
 
+
+When a user Alice wants to send a message to another user Bob.
+
+%references page
 \newpage
 \bibliographystyle{plain}
 \bibliography{bib}

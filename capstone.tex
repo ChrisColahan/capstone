@@ -1,0 +1,170 @@
+%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+%This is a blank document for homework assignments.
+
+%Some preliminaries:  Anything after a '%' is a comment - it isn't read by 
+%the compiler.  
+
+%You are welcome to skip down to lines 38-44 to put in some information, and 
+%then to line 57 to start writing, but the preamble contains all the 
+%formatting that makes it look nice, if you're interested in how that works.
+
+%Packages are just collections of commands to do different things.  For
+%almost anything you might want to do, there's a package that will do it.
+%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%-%
+
+
+\documentclass[12pt]{article}  
+%The article class is a very basic type of document for writing
+%We will customize it to do what we want.
+
+\usepackage[margin=1in]{geometry}  %Adjust margins, formatting
+
+\usepackage{amsmath}  
+\usepackage{amssymb}  
+\usepackage{amsfonts}  
+%These packages add commands for useful symbols and fonts and things like that.
+%Most of the time, these are all you need.
+
+\usepackage{textcomp, gensymb}  %Gives more symbols, like /degree
+
+\usepackage{amsthm}
+
+\usepackage{fancyhdr}  %Header and Footer formatting
+\pagestyle{fancy}  
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{15pt}
+
+%Header and Footer Information
+\lhead{\large{\bf Christopher Colahan}}  %Replace with your name
+\chead{}
+\rhead{\textsc{Computer Science Capstone}}  %Replace "Title" with the name of the assignment
+\lfoot{24 Febuary 2017}  %You can let it put in today's date or put one in yourself
+\cfoot{\today}
+\rfoot{\thepage\ of \ref{NumPages}}  %Counts the pages.
+
+\makeatletter        %This provides a total page count as \ref{NumPages}
+\AtEndDocument{\immediate\write\@auxout{\string\newlabel{NumPages}{{\thepage}}}}
+\makeatother
+
+\usepackage{amsthm}  %This will create the Problem environment
+
+\usepackage[nottoc]{tocbibind} % for table of contents
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+
+\title{A history of cryptography and cryptanalysis}
+\date{\today}
+\author{Christopher Colahan\\ Simpson College}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+All ciphers can be defined as two functions, one called the enciphering function that takes a plaintext as input and outputs a ciphertext, and one called a deciphering function that takes a ciphertext as input and outputs the plaintext.
+
+For convenience, some common notation is used:
+
+{\centering
+	$p$ is the plaintext.\\
+	$c$ is the ciphertext.\\
+	$k$ is the secret key.\\
+	$E(p)$ is the enciphering function.\\
+	$D(c)$ is the deciphering function.\\
+}
+
+
+\section{Transposition Ciphers}
+A transposition cipher is a permutation of the plaintext.
+
+\section{Substitution Ciphers}
+
+\subsection{Shift Ciphers}
+Shift ciphers work by shifting the symbols in the plaintext by an amount. For example, if we are using the English alphabet, then there are $n=26$ possible symbols. We could then choose some $k$, $0<k<n$ for our key. In our notation, this would look like
+$$E(p_i,k)=p_i+k\text{ (mod $n$)}.$$ (possibly cite abs alg textbook here?)
+To get the deciphering function, we shift backwards:
+$$D(c_i,k)=c_i-k\text{ (mod $n$)}.$$
+
+
+Shift ciphers are broken by frequency analysis. Below is a table that shows the letter frequency from a sample of English text.
+
+\begin{center}
+	\begin{multicols}{3}
+		\begin{tabular}{||c | c||}
+			\hline
+			Letter & Percentage \\
+			\hline\hline
+			a & 8.2 \\ 
+			\hline
+			b & 1.5 \\
+			\hline
+			c & 2.8 \\
+			\hline
+			d & 4.3 \\
+			\hline
+			e & 12.7 \\
+			\hline
+			f & 2.2 \\
+			\hline
+			g & 2.0 \\
+			\hline
+			h & 6.1 \\
+			\hline
+		\end{tabular}
+		\begin{tabular}{||c | c||}
+			\hline
+			Letter & Percentage \\
+			\hline\hline
+			i & 7.0 \\
+			\hline
+			j & 0.2 \\
+			\hline
+			k & 0.8 \\
+			\hline
+			l & 4.0 \\
+			\hline
+			m & 2.4 \\
+			\hline
+			n & 6.7 \\
+			\hline
+			o & 7.5 \\
+			\hline
+			p & 1.9 \\
+			\hline
+		\end{tabular}
+		\begin{tabular}{||c | c||}
+			\hline
+			Letter & Percentage \\
+			\hline\hline
+			q & 0.1 \\
+			\hline
+			r & 6.0 \\
+			\hline 
+			s & 6.3 \\ 
+			\hline 
+			t & 9.1 \\
+			\hline 
+			u & 2.8 \\
+			\hline 
+			v & 1.0 \\
+			\hline 
+			w & 2.4 \\
+			\hline
+			x & 0.2 \\
+			\hline
+			y & 2.0 \\
+			\hline 
+			z & 0.1 \\
+			\hline 
+		\end{tabular}
+	\end{multicols}
+\end{center}
+\cite[pg. 19]{codebook}
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}

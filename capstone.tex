@@ -28,6 +28,8 @@
 \usepackage{textcomp, gensymb}  %Gives more symbols, like /degree
 
 \usepackage{amsthm}
+\usepackage{adjustbox}
+\usepackage{graphicx}
 
 \usepackage{fancyhdr}  %Header and Footer formatting
 \pagestyle{fancy}  
@@ -65,6 +67,7 @@
 
 %table of contents page
 \tableofcontents
+\listoffigures
 \newpage
 
 
@@ -93,88 +96,6 @@ $$E(p_i,k)=p_i+k\text{ (mod $n$)}.$$ (possibly cite abs alg textbook here?)
 To get the deciphering function, we shift backwards:
 $$D(c_i,k)=c_i-k\text{ (mod $n$)}.$$
 
-\subsubsection{Frequency Analysis}
-Shift ciphers are broken by frequency analysis. Below is a table that shows the letter frequency from a sample of English text.
-
-\begin{center}
-	\begin{multicols}{3}
-		\begin{tabular}{||c | c||}
-			\hline
-			Letter & Percentage \\
-			\hline\hline
-			a & 8.2 \\ 
-			\hline
-			b & 1.5 \\
-			\hline
-			c & 2.8 \\
-			\hline
-			d & 4.3 \\
-			\hline
-			e & 12.7 \\
-			\hline
-			f & 2.2 \\
-			\hline
-			g & 2.0 \\
-			\hline
-			h & 6.1 \\
-			\hline
-		\end{tabular}
-	
-		\columnbreak
-		
-		\begin{tabular}{||c | c||}
-			\hline
-			Letter & Percentage \\
-			\hline\hline
-			i & 7.0 \\
-			\hline
-			j & 0.2 \\
-			\hline
-			k & 0.8 \\
-			\hline
-			l & 4.0 \\
-			\hline
-			m & 2.4 \\
-			\hline
-			n & 6.7 \\
-			\hline
-			o & 7.5 \\
-			\hline
-			p & 1.9 \\
-			\hline
-		\end{tabular}
-	
-	\columnbreak
-	
-		\begin{tabular}{||c | c||}
-			\hline
-			Letter & Percentage \\
-			\hline\hline
-			q & 0.1 \\
-			\hline
-			r & 6.0 \\
-			\hline 
-			s & 6.3 \\ 
-			\hline 
-			t & 9.1 \\
-			\hline 
-			u & 2.8 \\
-			\hline 
-			v & 1.0 \\
-			\hline 
-			w & 2.4 \\
-			\hline
-			x & 0.2 \\
-			\hline
-			y & 2.0 \\
-			\hline 
-			z & 0.1 \\
-			\hline 
-		\end{tabular}
-	\end{multicols}
-\end{center}
-\cite[pg. 19]{codebook}
-
 \subsubsection{Homophonic Substitution Ciphers}
 A homophonic substitution cipher is a substitution cipher that maps each symbol to one of more symbols in order to prevent frequency analysis from being used. 
 
@@ -187,24 +108,167 @@ A polyalphabetic substitution cipher uses multiple monoalphabetic substitution c
 
 \subsubsection{Vigen\`{e}re Cipher}
 The vigen\`{e}re cipher uses 26 alphabets to encrypt plaintext. A key is also used that consists of a string of symbols. Given a plaintext symbol $p_i$ and a key symbol $k_j$, the ciphertext symbol $c_i$ is the character in the $i$ column and $j$ row.
-(insert vigen\`{e}re square here)
-(insert example here)
+Figure \ref{vigsquare} shows the square used for encrypting and decrypting using the Vigen\`{e}re cipher.
+
+\begin{figure}[ht]
+	
+		\caption{Vigen\`{e}re Square}
+		\label{vigsquare}
+	
+\begin{adjustbox}{max width=\textwidth}
+	
+	\begin{tabular}{|| c || c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c ||}
+		\hline
+		 & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\
+		\hline\hline
+A & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ \hline
+B & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A \\ \hline
+C & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B \\ \hline
+D & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C \\ \hline
+E & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D \\ \hline
+F & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E \\ \hline
+G & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F \\ \hline
+H & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G \\ \hline
+I & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H \\ \hline
+J & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I \\ \hline
+K & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J \\ \hline
+L & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K \\ \hline
+M & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L \\ \hline
+N & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M \\ \hline
+O & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+P & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O \\ \hline
+Q & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P \\ \hline
+R & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q \\ \hline
+S & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R \\ \hline
+T & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S \\ \hline
+U & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T \\ \hline
+V & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U \\ \hline
+W & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V \\ \hline
+X & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W \\ \hline
+Y & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X \\ \hline
+Z & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y \\ \hline
+	\end{tabular}
+\end{adjustbox}
+
+
+\end{figure}
+
 \subsubsection{One Time Pad}
-The one time pad is a special vigen\`{e}re cipher where
+The one time pad is a special Vigen\`{e}re cipher where
 \begin{itemize}
 	\item the key is the same length as the plaintext,
 	\item the key is random, and
 	\item the same key is not used to encrypt two different plain texts.
 \end{itemize}
-There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}.
+There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}. Instead of using a Vigen\`{e}re cipher, modern implementations use the binary XOR operation to combine ciphertext and plaintext since enciphering and deciphering are the same operation and thus much simper.
+
+\subsection{Cryptanalysis on Substiution Ciphers}
+
+\subsection{Frequency Analysis}
+\subsubsection{Frequency Analysis on Monoalphabetic Substitution Ciphers}
+Shift ciphers are easily broken by frequency analysis. Figure \ref{freqchars} the letter frequency from a sample of English text. If a sufficient sample of cipher-text is acquired, The frequency of letters should be a shifted version of Figure \ref{freqchars}.
+
+\begin{figure}[ht]
+	\caption{Frequency of Characters in English Text}
+	\label{freqchars}
+	\begin{center}
+		\begin{multicols}{3}
+			\begin{tabular}{||c | c||}
+				\hline
+				Letter & Percentage \\
+				\hline\hline
+				a & 8.2 \\ 
+				\hline
+				b & 1.5 \\
+				\hline
+				c & 2.8 \\
+				\hline
+				d & 4.3 \\
+				\hline
+				e & 12.7 \\
+				\hline
+				f & 2.2 \\
+				\hline
+				g & 2.0 \\
+				\hline
+				h & 6.1 \\
+				\hline
+				i & 7.0 \\
+				\hline
+			\end{tabular}
+			
+			\columnbreak
+			
+			\begin{tabular}{||c | c||}
+				\hline
+				Letter & Percentage \\
+				\hline\hline
+				j & 0.2 \\
+				\hline
+				k & 0.8 \\
+				\hline
+				l & 4.0 \\
+				\hline
+				m & 2.4 \\
+				\hline
+				n & 6.7 \\
+				\hline
+				o & 7.5 \\
+				\hline
+				p & 1.9 \\
+				\hline
+				q & 0.1 \\
+				\hline
+				r & 6.0 \\
+				\hline 
+			\end{tabular}
+			
+			\columnbreak
+			
+			\begin{tabular}{||c | c||}
+				\hline
+				Letter & Percentage \\
+				\hline\hline
+				s & 6.3 \\ 
+				\hline 
+				t & 9.1 \\
+				\hline 
+				u & 2.8 \\
+				\hline 
+				v & 1.0 \\
+				\hline 
+				w & 2.4 \\
+				\hline
+				x & 0.2 \\
+				\hline
+				y & 2.0 \\
+				\hline 
+				z & 0.1 \\
+				\hline 
+			\end{tabular}
+		\end{multicols}
+	\end{center}
+	\begin{flushright}
+		\cite[pg. 19]{codebook}
+	\end{flushright}
+\end{figure}
+\subsubsection{Frequency Analysis on Polyalphabetic Substitution Ciphers}
+Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. For breaking a Vigen\`{e}re cipher, the key length must first be found. To find the key length of a Vigen\`{e}re cipher, all lengths of keys are checked. If the correct length $n$ is chosen, every $n^{th}$ letter taken together will form a frequency distribution similar to that of a monoalphabetic cipher. This works because every if the key is length $n$, then every $n^{th}$ character in the key string is the same, thus every $n^{th}$ character in the ciphertext is encrypted using the same alphabet. Once the key length is found, frequency analysis can be used against every $n$ letters in the ciphertext, then every $n-1$ letters, and so on for the length of the key. This process requires the key to be much smaller than the plaintext to be used successfully, so the one-time pad cannot be attacked using this method.
+
 \section{Modern Cryptography}
+\subsection{One Way Hashing}
+One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. There should also be no $H^{-1}(c)=p$ (otherwise it would not be one way). To break an ideal one way hash algorithm, the fastest way should be using brute force.
 \subsection{Private Key Cryptography}
 In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys.
 \subsection{Public Key Cryptography}
 In public key cryptography each user has two keys, a private key $k_{pri}$ and a public key $k_{pub}$. $k_{pub}$ is used for encrypting messages, while $k_{pri}$ is used for decrypting messages. Unfortunately, every user must have a list of the public keys for all users they wish to communicate with.
 
+When a user Alice wants to send a message to another user Bob, Alice encrypts the message with Bob's public key. Since Bob is the only one with his private key, he is the only one who can decrypt the message, thus providing secure communication if the algorithm is encryption and decryption algorithm is secure.
 
-When a user Alice wants to send a message to another user Bob.
+Typically, a public key algorithm such as RSA is slow and thus not very feasible fo the real time applications in use today. However, public key cryptography algorithms are commonly used to exchange a key for use with private key algorithms such as AES.
+
+\subsubsection{Certificate Authorities}
+A Certificate Authority (CA) solves the problem of keeping track of keys. Instead of having a key for every other person, the CA keeps them all and each user just has the key of the CA. When the user Alice wants to communicate with Bob, Alice asks the CA for Bob's key via a secure channel. Once Alice gets Bob's key, Alice then can communicate securely with Bob without involving the CA again.
 
 %references page
 \newpage

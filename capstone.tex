@@ -162,6 +162,9 @@ The one time pad is a special Vigen\`{e}re cipher where
 \end{itemize}
 There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}. Instead of using a Vigen\`{e}re cipher, modern implementations use the binary XOR operation to combine ciphertext and plaintext since enciphering and deciphering are the same operation and thus much simper.
 
+\subsubsection{The Enigma Machine}
+The Enigma machine was a German encryption/decryption machine used extensively during world war 2. [insert references].
+
 \subsection{Cryptanalysis on Substiution Ciphers}
 
 \subsection{Frequency Analysis}
@@ -258,6 +261,30 @@ Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. 
 \section{Modern Cryptography}
 \subsection{One Way Hashing}
 One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. There should also be no $H^{-1}(c)=p$ (otherwise it would not be one way). To break an ideal one way hash algorithm, the fastest way should be using brute force.
+\subsubsection{SNEFRU}
+\subsubsection{MD5}
+MD5, or Message Digest 5, is the fifth improvement to the Message Digest family of hash algorithms designed by Ron Rivest.
+
+The algorithm works as follows.
+First pad the message with one 1 bit and the rest 0 bits such that $\left|message\right|=448(\text{mod }512)$. Then append the 64 bit length of the whole message to the end. Now $\left|message\right|=0(\text{mod }512)$
+For each 512 bit block, Let
+\begin{align*}
+m&=\text{input message block (512 bit)}\\
+a&=0x01234567\\
+b&=0x89ABCDEF\\
+c&=0xFEDCBA98\\
+d&=0x76543210\\\\
+F(X,Y,Z)&=(X\land Y)\lor((\lnot X)\land Z)\\
+G(X,Y,Z)&=(X\land Z)\lor(Y\land(\lnot Z))
+\end{align*}
+
+
+
+\cite[p. 436]{appcrypt}. MD5 has been broken (need citation).
+\subsubsection{SHA Family}
+SHA is the Secure Hash Algorithm standard created by NIST and the NSA \cite{appcrypt}. Currently there are SHA-1, SHA-2, SHA-2, SHA-3
+\subsection{Cryptanalysis on hashing algorithms}
+Brute force will always work on a hashing algorithm, but it is often infeasible to complete in any meaningful time. Another attack that may be practical is the birthday attack. The birthday attack finds 2 input messages $m$ and $m'$ such that $H(m)=H(m')$ \cite{appcrypt}.
 \subsection{Private Key Cryptography}
 In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys.
 \subsection{Public Key Cryptography}

@@ -263,7 +263,6 @@ Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. 
 \section{Modern Cryptography}
 \subsection{One Way Hashing}
 One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. There should also be no $H^{-1}(c)=p$ (otherwise it would not be one way). To break an ideal one way hash algorithm, the fastest way should be using brute force.
-\subsubsection{SNEFRU}
 \subsubsection{MD5}
 MD5, or Message Digest 5, is the fifth improvement to the Message Digest family of hash algorithms designed by Ron Rivest.
 
@@ -322,7 +321,7 @@ A simple way to expand increase the difficulty of breaking a substitution cipher
 
 %references page
 \newpage
-\bibliographystyle{plain}
+\bibliographystyle{acm} % could also use ieeetr, acm or apalike
 \bibliography{bib}
 
 \end{document}

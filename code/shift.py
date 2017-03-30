@@ -1,11 +1,29 @@
 
+#utility function to check if char is alpha
+def isalpha(char):
+	val = ord(char)
+	return (val >= ord('a') and val <= ord('z')) or (val >= ord('A') and val <= ord('Z'))
+
+#utility function to convert alpha 
+#ASCII character to int in range [0,26] inclusive
+def ascii2modchar(char):
+	if not isalpha(char):
+		raise Exception('Given character is not alpha')
+	val = ord(char.upper()) - ord('A')
+	return val
+
+#utility function to convert int in range [0,26]
+#to a charcter in the range ['A','Z']
+def modchar2ascii(val):
+	return chr((val % 26) + ord('A'))
+
 #char should be an alphabetic char (i.e. in the range ['A','Z'])
 #shift should be in the range [1,25]. 
 #0 wouldn't shift at all and 26 shifts a full rotation, so essentially 0.
 def encode(char, shift):
 	#transform the chararcter into the 0-25 range
 	#if it is alpha
-	val = ord(char.upper()) - ord('A')
+	val = ascii2modchar(char)
 	
 	#check to see that the character is alpha
 	if val >= 0 and val < 26:
@@ -14,7 +32,7 @@ def encode(char, shift):
 
 		#convert the number back to ASCII
 		#and return it as a char
-		return chr(val + ord('A'))
+		return modchar2ascii(val)
 	else:
 		raise Exception('the character was not alpha')
 
@@ -22,7 +40,8 @@ def encode(char, shift):
 def encode_str(string, shift):
 	out = ""
 	for char in string:
-		out += encode(char, shift)
+		if isalpha(char):
+			out += encode(char, shift)
 	return out
 
 #decodes a string
@@ -37,17 +56,16 @@ def decode_str(string, shift):
 #the elements in the table are in teh range [0,1]
 def freq(string):
 	freq_table = [0] * 26
+	numchars = 0
 	for char in string:
-		val = ord(char.upper()) - ord('A')
-		if val >= 0 and val < 26:
+		if isalpha(char):
+			val = ascii2modchar(char)
 			freq_table[val] += 1
-		else:
-			raise Exception('the character was not alpha')
-	sum_freq = sum(freq_table)
-	for i in range (26):
-		freq_table[i] = freq_table[i] / sum_freq
+			numchars += 1
+	for i in range(26):
+		print(modchar2ascii(i) + ":" + str(freq_table[i]))
+		freq_table[i] /= numchars
 	return freq_table
-
 
 #find the sift of an ecoded string.
 #the idea is to try all shifts (0,1,2,...25)
@@ -63,7 +81,7 @@ def find_shift(standard_freq_table, cipher_freq_table):
 		err = 0
 		for j in range(1,26):
 			#calculate least squares difference
-			err += (cipher_freq_table[(j + 26 - i) % 26] - standard_freq_table[i])**2
+			err += (standard_freq_table[j] - cipher_freq_table[(j + 26 + i) % 26])**2
 		min_shift.append([i, err])
 	return list(map(lambda x: x[0], sorted(min_shift, key=lambda x: x[1])))
 
@@ -97,24 +115,14 @@ standard_freq_table = [
 	0.001#Z
 ]
 
-#The enemy waits at the bottom of the hill. Please send more supplies.
-string = "THEENEMYWAITSATTHEBOTTOMOFTHEHILLPLEASESENDMORESUPPLIES"
 #from huckelberry fin chp 3
-string2 = "WELLIGOTAGOODGOINGOVERINTHEMORNINGFROMOLDMISSWATSONONACCOUNTOFMYCLOTHESBUTTHEWIDOSHEDIDNTSCOLDBUTONLYCLEANEDOFFTHEGREASEANDCLAYANDLOOKEDSOSORRYTHATITHOUGHTIWOULDBEHAVEAWHILEIFICOULDTHENMISSWATSONSHETOOKMEINTHECLOSETANDPRAYEDBUTNOTHINGCAMEOFITSHETOLDMETOPRAYEVERYDAYANDWHATERVERIASKEDFORIWOULDGETITBUTITWARNTSOITRIEDITONCEIGOTAFISHLINEBUTNOHOOKS"
+string = open('huckelberryfinn.txt').read()
 key = 12
-print("key is " + str(key))
-print("original string: " + string)
-encoded = encode_str(string, key)
-print("encoded string:  " + encoded)
-decoded = decode_str(encoded, key)
-print("decoded string:  " + decoded)
 
+encoded = encode_str(string, key)
 freq_table = freq(encoded)
 print("frequency table:")
 for i in range(26):
-	print(chr(i + ord('A')) + " : " + "{0:.3f}".format(freq_table[i]) + "%")
-
+	print(modchar2ascii(i) + " : " + "{0:.3f}".format(freq_table[i]) + "%")
 print(find_shift(standard_freq_table, freq_table))
-
-print(find_shift(standard_freq_table, freq(encode_str(string2, key))))
 

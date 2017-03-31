@@ -81,7 +81,7 @@ def find_shift(standard_freq_table, cipher_freq_table):
 		err = 0
 		for j in range(1,26):
 			#calculate least squares difference
-			err += (standard_freq_table[j] - cipher_freq_table[(j + 26 + i) % 26])**2
+			err += (standard_freq_table[j] - cipher_freq_table[(j + i) % 26])**2
 		min_shift.append([i, err])
 	return list(map(lambda x: x[0], sorted(min_shift, key=lambda x: x[1])))
 
@@ -115,7 +115,7 @@ standard_freq_table = [
 	0.001#Z
 ]
 
-#from huckelberry fin chp 3
+#from huckelberry fin text from http://www.gutenberg.org/ebooks/76
 string = open('huckelberryfinn.txt').read()
 key = 12
 

@@ -24,20 +24,210 @@
 \usepackage{amsfonts}
 
 \usepackage{amsthm}
+\usepackage{multicol}
+
+\usepackage{adjustbox}
 
 \setlength{\headheight}{18pt} 
 
-\title{A history of Cryptography and Cryptanalysis}
+\title{A History of Cryptography and Cryptanalysis}
 \date{}
 \author{Christopher Colahan\\ Simpson College}
+
+
 
 \begin{document}
 
 \frame{\titlepage}
 
 \begin{frame}
-	\frametitle{Ciphers}
-	Some body text
+	\frametitle{Transposition Ciphers}
+	Transposition ciphers rearrange the order of plaintext. Columnar transposition ciphers are a common example. To perform an encoding using the columnar transposition cipher, write plaintext characters horizontally in a grid of fixed length. the plaintext is obtained by reading the columns of the grid [2, pg 12].
 \end{frame}
 
+\begin{frame}
+	\frametitle{Columnar Transposition Cipher}
+	Plaintext: THIS IS A SECRET MESSAGE
+	\begin{center}
+		\begin{tabular}{c c c c c}
+			T & H & I & S & I \\
+			S & A & S & E & C \\
+			R & E & T & M & E \\
+			S & S & A & G & E
+		\end{tabular}
+	\end{center}
+
+	Ciphertext: TSRS HAES ISTA SEMG ICEE
+\end{frame}
+
+\begin{frame}
+	\frametitle{Monoalphabetic Substitution Ciphers}
+	Monoalphabetic substitution ciphers replace each character in the plaintext with another character, usually given by a substitution table or function.
+	\begin{itemize}
+		\item Shift Cipher
+		\begin{itemize}
+			\item All characters in the plaintext are shifted by a key $n$, where $0\leq n < 26$
+		\end{itemize}
+		\item Substitution Cipher
+		\begin{itemize}
+			\item Each character from the plaintext is mapped to a character from a table to obtain the plaintext.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Polyalphabetic Substitution Ciphers}
+	Polyalphabetic substitution ciphers use multiple substitution tables to encrypt characters. The Vigen\`{e}re cipher uses a grid of 26 alphabets to encrypt plaintext. To encrypt a plaintext character $p$ with the Vigen\`{e}re cipher and a key character $k$, the ciphertext character is the charcter in the $p$ column and the $k$ row.
+\end{frame}
+
+\begin{frame}
+	
+	\frametitle{Vigen\`{e}re Square}
+	
+	\begin{adjustbox}{max width=\textwidth}
+		
+		\begin{tabular}{| c || c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c ||}
+			\hline
+			& A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\
+			\hline\hline
+			A & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\ \hline
+			B & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A \\ \hline
+			C & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B \\ \hline
+			D & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C \\ \hline
+			E & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D \\ \hline
+			F & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E \\ \hline
+			G & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F \\ \hline
+			H & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G \\ \hline
+			I & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H \\ \hline
+			J & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I \\ \hline
+			K & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J \\ \hline
+			L & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K \\ \hline
+			M & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L \\ \hline
+			N & N & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M \\ \hline
+			O & O & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N \\ \hline
+			P & P & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O \\ \hline
+			Q & Q & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P \\ \hline
+			R & R & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q \\ \hline
+			S & S & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R \\ \hline
+			T & T & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S \\ \hline
+			U & U & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T \\ \hline
+			V & V & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U \\ \hline
+			W & W & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V \\ \hline
+			X & X & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W \\ \hline
+			Y & Y & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X \\ \hline
+			Z & Z & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y \\ \hline
+		\end{tabular}
+	\end{adjustbox}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Vigen\`{e}re Cipher Example}
+	Plaintext: SEND SUPPLIES AT ONCE\\
+	Key: CODE
+	
+	\begin{center}
+		\begin{adjustbox}{max width=\textwidth}
+			\begin{tabular}{cccccccccccccccccc}
+				S&E&N&D&S&U&P&P&L&I&E&S&A&T&O&N&C&E\\
+				C&O&D&E&C&O&D&E&C&O&D&E&C&O&D&E&C&O\\
+				\hline
+				U&S&Q&H&U&I&S&T&N&W&H&W&C&H&R&R&E&S
+			\end{tabluar}
+		\end{adjustbox}
+	\end{center}
+
+	Ciphertext: USQHUISTNWHWCHRRES
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{Frequency Analysis}
+	Substitution ciphers can be broken by using a a statistical technique called frequency analysis. For monoalphabetic ciphers, the frequency of the ciphertext is compared to the frequency for English and corresponding frequencies are compared to find a match. Due to inconsistencies with real world data, an error function such as the least squares method can be used. To break polyalphabetic substitution ciphers, the length of the key must first be found using frequency analysis, then each character can be determined by using frequency analysis of characters offset by the key length [3, pg. 63-78].
+\end{frame}
+
+\begin{frame}
+	\frametitle{Character Frequency Chart for English}
+	\begin{center}\small
+			\begin{tabular}{|| c | c || c | c || c | c ||}
+				\hline
+				Letter & Percentage & Letter & Percentage & Letter & Percentage \\
+				\hline\hline
+				a & 8.2 & j & 0.2 & s & 6.3 \\ 
+				\hline
+				b & 1.5 & k & 0.8 & t & 9.1 \\
+				\hline
+				c & 2.8 & l & 4.0 & u & 2.8 \\
+				\hline
+				d & 4.3 & m & 2.4 & v & 1.0 \\
+				\hline
+				e & 12.7 & n & 6.7 & w & 2.4 \\
+				\hline
+				f & 2.2 & o & 7.5 & x & 0.2 \\
+				\hline
+				g & 2.0 & p & 1.9 & y & 2.0 \\
+				\hline
+				h & 6.1 & q & 0.1 & z & 0.1 \\
+				\hline
+				i & 7.0 & r & 6.0 &  & \\
+				\hline
+			\end{tabular}
+	\end{center}
+	[2, pg. 19]
+\end{frame}
+
+\begin{frame}
+	\frametitle{Character Frequency Chart for Ciphertext}
+	The sample text was encoded using a shift cipher.
+	\begin{center}\small
+		\begin{tabular}{|| c | c || c | c || c | c ||}
+			\hline
+			Letter & Percentage & Letter & Percentage & Letter & Percentage \\
+			\hline\hline
+			a & 8.4 & j & 0.1 & s & 2.5 \\ 
+			\hline
+			b & 1.4 & k & 2.3 & t & 6.0 \\
+			\hline
+			c & 0.0 & l & 0.0 & u & 6.5 \\
+			\hline
+			d & 4.6 & m & 8.3 & v & 0.3 \\
+			\hline
+			e & 5.8 & n & 1.7 & w & 1.3 \\
+			\hline
+			f & 9.7 & o & 1.9 & x & 4.0 \\
+			\hline
+			g & 3.2 & p & 5.4 & y & 2.4 \\
+			\hline
+			h & 0.7 & q & 11.2 & z & 7.5 \\
+			\hline
+			i & 3.0 & r & 1.8 &  & \\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{One Time Pad}
+	The one time pad cipher is a version of the Vigen\`{e}re cipher where
+	\begin{itemize}
+		\item The key is the same length as the plaintext
+		\item The key is random, and 
+		\item The key is not reused for multiple encryptions.
+	\end{itemize}
+
+	There is no statistical analysis that can be applied to the ciphertext to break it [1, pg 393].
+\end{frame}
+
+\begin{frame}
+	\frametitle{One Way Hashes}
+	A one way hash is an algorithm or function $H$ that takes a plaintext $p$ and converts it to ciphertext $c$, where computing $H^{-1}(c)=p$ is much more computationally difficult than computing $H(p)=c$. Given a ciphertext $c$ where $H(p)=c$, a birthday attack on a one way hash is to find $p'$ where $H(p)=H(p')$ [2].
+\end{frame}
+
+\begin{frame}
+	\frametitle{References}
+	[1] Michael T. Goodrich, Roberto Tamassia, \textit{Introduction to Computer Security}, Boston, MA, Pearson, 2011. \\
+	
+	[2] Bruce Schneier, \textit{Applied Cryptography}, $20^{\text{th}}$ Anniversary ed. Indianapolis, IN, John Wiley \& Sons Inc., 1996.  \\
+	
+	[3] Simon Singh, \textit{The Code Book}, New York, NY, Anchor Books, 1999.
+\end{frame}
 \end{document}

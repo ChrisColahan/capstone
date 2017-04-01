@@ -68,7 +68,9 @@ For convenience, some common notation is used:
 
 \section{Antiquated Cryptography}
 \subsection{Transposition Ciphers}
-A transposition cipher is a permutation of the plaintext.
+A transposition cipher rearranges the order of the plaintext to create the ciphertext. Two common transposition ciphers are the rail fence and columnar ciphers. In a columnar cipher, the plaintext is written horizontally with a fixed number of characters on each row. The cipher text is obtained by reading each column of the grid \cite{appcrypt}.
+
+Transposition ciphers are commonly added to other ciphers to make them more secure.
 
 \subsection{Monoalphabetic Substitution Ciphers}
 
@@ -167,8 +169,6 @@ The Enigma machine consisted of a keyboard, a display, a plugboard, multiple scr
 
 [insert details about breaking enigma]
 
-\subsection{Cryptanalysis on Substiution Ciphers}
-
 \subsection{Frequency Analysis}
 \subsubsection{Frequency Analysis on Monoalphabetic Substitution Ciphers}
 Shift ciphers are easily broken by frequency analysis. Figure \ref{freqchars} the letter frequency from a sample of English text. If a sufficient sample of cipher-text is acquired, The frequency of letters should be a shifted version of Figure \ref{freqchars}.
@@ -259,6 +259,9 @@ Shift ciphers are easily broken by frequency analysis. Figure \ref{freqchars} th
 \end{figure}
 \subsubsection{Frequency Analysis on Polyalphabetic Substitution Ciphers}
 Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. For breaking a Vigen\`{e}re cipher, the key length must first be found. To find the key length of a Vigen\`{e}re cipher, all lengths of keys are checked. If the correct length $n$ is chosen, every $n^{th}$ letter taken together will form a frequency distribution similar to that of a monoalphabetic cipher. This works because every if the key is length $n$, then every $n^{th}$ character in the key string is the same, thus every $n^{th}$ character in the ciphertext is encrypted using the same alphabet. Once the key length is found, frequency analysis can be used against every $n$ letters in the ciphertext, then every $n-1$ letters, and so on for the length of the key. This process requires the key to be much smaller than the plaintext to be used successfully, so the one-time pad cannot be attacked using this method.
+
+\subsubsection{Cryptanalysis on Transposition ciphers}
+A technique to determine if a ciphertext is the result of a transposition cipher is to analyze the ciphertext with frequency analysis. If the ciphertext has the same frequencies as English, then the cipher is likely to be a transposition cipher \cite{appcrypt}.
 
 \section{Modern Cryptography}
 \subsection{One Way Hashing}

@@ -116,7 +116,7 @@ standard_freq_table = [
 ]
 
 #from huckelberry fin text from http://www.gutenberg.org/ebooks/76
-string = open('huckelberryfinn.txt').read()
+string = open('huckelberryfinn.txt', encoding='utf-8').read()
 key = 12
 
 encoded = encode_str(string, key)

@@ -63,7 +63,6 @@ def freq(string):
 			freq_table[val] += 1
 			numchars += 1
 	for i in range(26):
-		print(modchar2ascii(i) + ":" + str(freq_table[i]))
 		freq_table[i] /= numchars
 	return freq_table
 
@@ -73,7 +72,6 @@ def freq(string):
 #the standard frequency table and the generated one 
 #from the ciphertext.
 def find_shift(standard_freq_table, cipher_freq_table):
-	#shift, err
 	min_shift = [[0,1000000]]
 	# try all shifts
 	for i in range(1,26):

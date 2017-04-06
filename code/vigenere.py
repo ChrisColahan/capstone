@@ -18,28 +18,22 @@ def modchar2ascii(val):
 	return chr((val % 26) + ord('A'))
 
 #char should be an alphabetic char (i.e. in the range ['A','Z'])
-#shift should be in the range [1,25]. 
-#0 wouldn't shift at all and 26 shifts a full rotation, so essentially 0.
+#shift should be an alphabetic character.
+#A shifts by zero.
 def encode(char, shift):
 	#transform the chararcter into the 0-25 range
 	#if it is alpha
 	val = ascii2modchar(char)
+	shift_val = ascii2modchar(shift)
 	
-	#check to see that the character is alpha
-	if val >= 0 and val < 26:
-		#E(p,k)= (p+k) (mod 26)
-		val = (val + shift) % 26
-
-		#convert the number back to ASCII
-		#and return it as a char
-		return modchar2ascii(val)
-	else:
-		raise Exception('the character was not alpha')
+	#E(p,k)= (p+k) (mod 26)
+	return modchar2ascii((val + shift_val) % 26)
 
 #encodes a string
 def encode_str(string, key):
 	out = ""
 	keystr = ""
+	out2 = ""
 	for char in key:
 		if isalpha(char):
 			keystr += char
@@ -49,12 +43,23 @@ def encode_str(string, key):
 		if isalpha(char):
 			out += char
 	for i in range(len(out)):
-		out += encode(out[i], ascii2modchar(keystr[i % len(keystr)]))
-	return out
+		out2 += encode(out[i], keystr[i % len(keystr)])
+	return out2
+
+#char is a ciphertext character to be decoded
+#shift is the corresponding key character
+def decode(char, shift):
+	#convert character to [0,25]
+	val = ascii2modchar(char)
+	shift_val = ascii2modchar(shift)
+	
+	#D(c,k)=(26+c-k) (mod 26)
+	return modchar2ascii((26 + val - shift_val) % 26)
 
 #decodes a string
 def decode_str(string, key):
 	out = ""
+	out2 = ""
 	keystr = ""
 	for char in key:
 		print(char)
@@ -66,15 +71,15 @@ def decode_str(string, key):
 		if isalpha(char):
 			out += char
 	for i in range(len(out)):
-		out += encode(out[i], (26 - ascii2modchar(keystr[i % len(keystr)])) % 26)
-	return out
+		out2 += decode(out[i], keystr[i % len(keystr)])
+	return out2
 
 #from huckelberry fin text from http://www.gutenberg.org/ebooks/76
 string = open('huckelberryfinn.txt').read()
 key = "MYSUPERSECRETKEY"
 
-print(string)
-print("\n\n\n")
+#print(string)
+#print("\n\n\n")
 encoded = encode_str(string, key)
 print(encoded)
 print("\n\n\n")

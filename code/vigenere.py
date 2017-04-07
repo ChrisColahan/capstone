@@ -168,7 +168,7 @@ def find_key(ciphertext, standard_freq_table):
 		least_err = 100
 		least_shift = 0
 		for i in range(26):
-			err = find_err(standard_freq_table, cipher_chars, i)
+			err = find_err(standard_freq_table, freq(cipher_chars), i)
 			if err < least_err:
 				least_err = err
 				least_shift = i

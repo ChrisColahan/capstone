@@ -35,6 +35,7 @@
 
 \usepackage[nottoc]{tocbibind} % for table of contents
 \usepackage{multicol}
+\usepackage{listings}
 
 \setlength{\headheight}{18pt} 
 
@@ -54,23 +55,20 @@
 
 
 %main content
-All ciphers can be defined as two functions, one called the enciphering function that takes a plaintext as input and outputs a ciphertext, and one called a deciphering function that takes a ciphertext as input and outputs the plaintext.
 
-For convenience, some common notation is used:
-
-{\centering
-	$p$ is the plaintext.\\
-	$c$ is the ciphertext.\\
-	$k$ is the secret key.\\
-	$E(p)$ is the enciphering function.\\
-	$D(c)$ is the deciphering function.\\
-}
+%abstract area
+\section{Abstract}
+Cryptography is used every day to secure private information. Since the invention of the first ciphers
+millennia ago, ciphers have been continuously created and broken. The history of cryptography and
+cryptanalysis is examined, starting with the transposition and monoalphabetic substitution ciphers of the
+ancient Greeks and Romans. Next, frequency analysis is examined as a technique to break monoalphabetic
+and polyalphabetic substitution ciphers. Finally, modern cryptography is examined.
 
 \section{Antiquated Cryptography}
 \subsection{Transposition Ciphers}
-A transposition cipher rearranges the order of the plaintext to create the ciphertext. Two common transposition ciphers are the rail fence and columnar ciphers. In a columnar cipher, the plaintext is written horizontally with a fixed number of characters on each row. The cipher text is obtained by reading each column of the grid \cite{appcrypt}.
+A transposition cipher rearranges the order of the plaintext to create the ciphertext. Two common transposition ciphers are the rail fence and columnar ciphers. In a columnar cipher, the plaintext is written horizontally with a fixed number of characters on each row. The cipher text is obtained by reading each column of the grid \cite{appcrypt}. Transposition ciphers are commonly added to other ciphers to make them more secure.
 
-Transposition ciphers are commonly added to other ciphers to make them more secure.
+A technique to determine if a ciphertext is the result of a transposition cipher is to analyze the ciphertext with frequency analysis. If the ciphertext has the same frequencies as English, then the cipher is likely to be a transposition cipher \cite{appcrypt}.
 
 \subsection{Monoalphabetic Substitution Ciphers}
 
@@ -80,16 +78,20 @@ For convenience, we define a mapping $M$: $\{A,B,..., Z\} \rightarrow \mathbb{Z}
 
 \subsubsection{Shift Ciphers}
 Shift ciphers work by shifting the symbols in the plaintext by an amount. For example, if we are using the English alphabet, then there are $n=26$ possible symbols. We could then choose some $k$, $0<k<n$ for our key. In our notation, this would look like
-$$E(p_i,k)=M^{-1}(M(p_i)+k\text{ (mod $n$)}).$$ (possibly cite abs alg textbook here?)
+$$E(p_i,k)=M^{-1}(M(p_i)+k\text{ (mod $n$)}).$$
 To get the deciphering function, we shift backwards:
 $$D(c_i,k)=M^{-1}(M(c_i)-k\text{ (mod $n$)}).$$
+
+\cite[pg. 98]{absalg}
 
 \subsubsection{Homophonic Substitution Ciphers}
 A homophonic substitution cipher is a substitution cipher that maps each symbol to one of more symbols in order to prevent frequency analysis from being used. 
 
 For example, suppose we have 100 symbols $S=\{s_1,s_2,...s_{100}\}$. The letter $e$ would map to approximately 12 or those symbols, but the letter $a$ would only map to about 8 of those symbols.
 
-Before enciphering, each letter is replaced at random with one of the symbols it maps to. This means that each symbol in the ciphertext only appears with a frequency of about 1\%.
+Before enciphering, each letter is replaced at random with one of the symbols it maps to. This means that each symbol in the ciphertext only appears with a frequency of about 1\% \cite[pg. 53]{codebook}.
+
+Homophonic substitution ciphers can be broken by using the occurrences of various character combinations. For example, $q$ is a rare character so is would be represented by only one symbol. Additionally, $u$ is represented by three symbols. Since $q$ is always followed by $u$, if a symbol in the ciphertext is always followed by one of three symbols, the characters probably represent $q$ and $u$ \cite[pg. 54]{codebook}. Similar techniques can be used to determine the rest of the symbols.
 
 \subsection{Polyalphabetic Substitution Ciphers}
 A polyalphabetic substitution cipher uses multiple monoalphabetic substitution ciphers to generate more possibilities for the ciphertext.
@@ -163,11 +165,7 @@ The one time pad is a special Vigen\`{e}re cipher where
 There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}. Instead of using a Vigen\`{e}re cipher, modern implementations use the binary XOR operation to combine ciphertext and plaintext since enciphering and deciphering are the same operation and thus much simper.
 
 \subsubsection{The Enigma Machine}
-The Enigma machine was a German encryption/decryption machine used extensively during world war 2. [insert references].
-
-The Enigma machine consisted of a keyboard, a display, a plugboard, multiple scrambling rotors, and a reflector. When a charcter is entered via the keyboard, an electrical signal is sent first through the plugboard. The plugboard allows pairs of letters to be swapped. Next, the signal goes through the scramblers. Each scrambler acts as a substitution cipher. The reflector then reflects the signal back through the scramblers in the reverse order. Finally, the signal is shown on the corresponding letter on the display. [need citation]
-
-[insert details about breaking enigma]
+The Enigma machine was a German encryption/decryption machine used extensively during World War 2. The Enigma machine consisted of a keyboard, a display, a plugboard, multiple scrambling rotors, and a reflector. When a charcter is entered via the keyboard, an electrical signal is sent first through the plugboard. The plugboard allows pairs of letters to be swapped. Next, the signal goes through the scramblers. Each scrambler acts as a substitution cipher. The reflector then reflects the signal back through the scramblers in the reverse order. Finally, the signal is shown on the corresponding letter on the display. The Enigma machine had a possible 10,000,000,000,000,000 settings \cite[pg. 136]{codebook}.
 
 \subsection{Frequency Analysis}
 \subsubsection{Frequency Analysis on Monoalphabetic Substitution Ciphers}
@@ -257,40 +255,23 @@ Shift ciphers are easily broken by frequency analysis. Figure \ref{freqchars} th
 		\cite[pg. 19]{codebook}
 	\end{flushright}
 \end{figure}
-\subsubsection{Frequency Analysis on Polyalphabetic Substitution Ciphers}
-Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. For breaking a Vigen\`{e}re cipher, the key length must first be found. To find the key length of a Vigen\`{e}re cipher, all lengths of keys are checked. If the correct length $n$ is chosen, every $n^{th}$ letter taken together will form a frequency distribution similar to that of a monoalphabetic cipher. This works because every if the key is length $n$, then every $n^{th}$ character in the key string is the same, thus every $n^{th}$ character in the ciphertext is encrypted using the same alphabet. Once the key length is found, frequency analysis can be used against every $n$ letters in the ciphertext, then every $n-1$ letters, and so on for the length of the key. This process requires the key to be much smaller than the plaintext to be used successfully, so the one-time pad cannot be attacked using this method.
 
-\subsubsection{Cryptanalysis on Transposition ciphers}
-A technique to determine if a ciphertext is the result of a transposition cipher is to analyze the ciphertext with frequency analysis. If the ciphertext has the same frequencies as English, then the cipher is likely to be a transposition cipher \cite{appcrypt}.
+\subsubsection{Frequency Analysis on Polyalphabetic Substitution Ciphers}
+Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. For breaking a Vigen\`{e}re cipher, the key length must first be found. To find the key length of a Vigen\`{e}re cipher, all lengths of keys are checked. If the correct length $n$ is chosen, every $n^{th}$ letter taken together will form a frequency distribution similar to that of a monoalphabetic cipher \cite[pg. 72,73]{codebook}. This works because every if the key is length $n$, then every $n^{th}$ character in the key string is the same, thus every $n^{th}$ character in the ciphertext is encrypted using the same alphabet. Once the key length $n$ is found, frequency analysis can be used against all $an$ letters in the ciphertext, for $0\leq a < n$, with each $a$ representing the $a^{th}$ character in the key \cite[pg. 74-76]{codebook}. This process requires the key to be much smaller than the plaintext to be used successfully, so the one-time pad cannot be attacked using this method.
 
 \section{Modern Cryptography}
 \subsection{One Way Hashing}
 One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. There should also be no $H^{-1}(c)=p$ (otherwise it would not be one way). To break an ideal one way hash algorithm, the fastest way should be using brute force.
-\subsubsection{MD5}
-MD5, or Message Digest 5, is the fifth improvement to the Message Digest family of hash algorithms designed by Ron Rivest.
 
-The algorithm works as follows.
-First pad the message with one 1 bit and the rest 0 bits such that $\left|message\right|\equiv448(\text{mod }512)$. Then append the 64 bit length of the whole message to the end. Now $\left|message\right|\equiv0(\text{mod }512)$
-For each 512 bit block, Let
-\begin{align*}
-m&=\text{input message block (512 bit)}\\
-a&=0x01234567\\
-b&=0x89ABCDEF\\
-c&=0xFEDCBA98\\
-d&=0x76543210\\\\
-F(X,Y,Z)&=(X\land Y)\lor((\lnot X)\land Z)\\
-G(X,Y,Z)&=(X\land Z)\lor(Y\land(\lnot Z))
-\end{align*}
+One way hash functions can be used to authentication. If Alice registers a secret key with bob previously, such as a password, Bob can hash and store the key. When Alice wants to verify her identity to Bob, she sends her key to Bob. Bob then hashes the key and if it matches the stored version, then Alice is authenticated. This is safer than Bob storing the key since it is difficult for Bob (or an attacker) to recover the key from the output of the hash function \cite[pg. 52]{appcrypt}
 
-
-
-\cite[p. 436]{appcrypt}. MD5 has been broken (need citation).
-\subsubsection{SHA Family}
-SHA is the Secure Hash Algorithm standard created by NIST and the NSA \cite{appcrypt}.
-\subsection{Cryptanalysis on hashing algorithms}
 Brute force will always work on a hashing algorithm, but it is often infeasible to complete in any meaningful time. Another attack that may be practical is the birthday attack. The \textit{birthday attack} finds 2 input messages $m$ and $m'$ such that $H(m)=H(m')$ \cite{appcrypt}.
+
+Another attack against one way hashes is the dictionary attack. Using a large list of common passwords, a table of common passwords and their hashes can be created. The hash of the unkown password can then be searched for in the list of hashes \cite[pg. 52]{appcrypt}.
+
 \subsection{Private Key Cryptography}
-In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys.
+In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys. The security of private key cryptography resides in the length of the key and Alice and Bob keeping the key secret. There are two main types of private key ciphers: stream and block ciphers. Stream ciphers encrypt a constant stream of bytes while clock ciphers encrypt plaintext in descrete chunks.
+
 \subsection{Public Key Cryptography}
 In public key cryptography each user has two keys, a private key $k_{pri}$ and a public key $k_{pub}$. $k_{pub}$ is used for encrypting messages, while $k_{pri}$ is used for decrypting messages. Unfortunately, every user must have a list of the public keys for all users they wish to communicate with.
 
@@ -310,21 +291,25 @@ There are sevaral types of cryptanalytic attacks that can be performed on a cryp
 	\item{\textit{chosen plaintext attack}: The cryptanalyst can submit an unlimited number of plaintext messages of their choosing and examine the resulting ciphertext}
 \end{itemize}
 
-\textit{Kerckhoffs' principle} states that a system should be secure when the attacker knows all aspects of the systems except the key. [need citation ?]
-\subsection{Differential Cryptanalysis}
-
-[insert things]
-
-\section{MISC}
-Not sure where these should go.
-
-Possibly put this under polyalphabetic ciphers.
-
-A simple way to expand increase the difficulty of breaking a substitution cipher is to use character pairs, or even more letters. For example, say we define $E(ab)=xg$ and $E(ac)=kd$. If this were a monoalphabetic cipher, then $a$ would need to amp to the same character in both cases. Frequency analysis can still be used, but additional effort is needed since each pair can map to $26^2$ pairs. [need citation]. The can be expanded for even larger blocks. For the number of characters in a block, there are $26^n$ possible mappings.
+\subsection{Man in the Middle Attacks}
+If an attacker can observe and control all communications between two parties, they might be able to read or interfere with the conversation. For example, assume that Alice and Bob are trying to communicate and Mallory is in the middle and can control all their messages. When Alice sends Bob her public key, Mallory intercepts the key and replaces it with her public key. Then when Bob sends Alice his public key, Mallory intercepts it and replaces it with her public key. Now when either Bob or Alice send a message to each other, Mallory can read or alter the message \cite[pg. 48]{appcrypt}. An authentication step is needed in the key exchange algorithm to ensure that Bob is really talking to Alice and vice versa.
 
 %references page
 \newpage
-\bibliographystyle{acm} % could also use ieeetr, acm or apalike
+\bibliographystyle{plain} % could also use ieeetr, acm or apalike
 \bibliography{bib}
+
+%appendices
+\newpage
+\appendix
+
+\section{Frequency Analysis of Shift Cipher in Python 3}
+
+\lstinputlisting[language=Python]{code/shift_analysis.py}
+
+\newpage
+\section{Frequency Analysis of Vigen\`{e}re Cipher in Python 3}
+
+\lstinputlisting[language=Python]{code/vigenere_analysis.py}
 
 \end{document}

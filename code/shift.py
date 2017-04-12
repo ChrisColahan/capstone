@@ -1,13 +1,8 @@
 
-#utility function to check if char is alpha
-def isalpha(char):
-	val = ord(char)
-	return (val >= ord('a') and val <= ord('z')) or (val >= ord('A') and val <= ord('Z'))
-
 #utility function to convert alpha 
 #ASCII character to int in range [0,26] inclusive
 def ascii2modchar(char):
-	if not isalpha(char):
+	if not char.isalpha():
 		raise Exception('Given character is not alpha')
 	val = ord(char.upper()) - ord('A')
 	return val
@@ -40,7 +35,7 @@ def encode(char, shift):
 def encode_str(string, shift):
 	out = ""
 	for char in string:
-		if isalpha(char):
+		if char.isalpha():
 			out += encode(char, shift)
 	return out
 
@@ -58,7 +53,7 @@ def freq(string):
 	freq_table = [0] * 26
 	numchars = 0
 	for char in string:
-		if isalpha(char):
+		if char.isalpha():
 			val = ascii2modchar(char)
 			freq_table[val] += 1
 			numchars += 1
@@ -72,15 +67,15 @@ def freq(string):
 #the standard frequency table and the generated one 
 #from the ciphertext.
 def find_shift(standard_freq_table, cipher_freq_table):
-	min_shift = [[0,1000000]]
+	min_shift = [[0,1]]
 	# try all shifts
-	for i in range(1,26):
+	for i in range(0,26):
 		#calculate avg freq difference from shifted tables
 		err = 0
-		for j in range(1,26):
+		for j in range(0,26):
 			#calculate least squares difference
 			err += (standard_freq_table[j] - cipher_freq_table[(j + i) % 26])**2
-		min_shift.append([i, err])
+		min_shift.append([i, err/26])
 	return list(map(lambda x: x[0], sorted(min_shift, key=lambda x: x[1])))
 
 #table from paper (The code book, Singh)

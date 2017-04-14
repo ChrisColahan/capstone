@@ -68,13 +68,11 @@ and polyalphabetic substitution ciphers. Finally, modern cryptography is examine
 \subsection{Transposition Ciphers}
 A transposition cipher rearranges the order of the plaintext to create the ciphertext. Two common transposition ciphers are the rail fence and columnar ciphers. In a columnar cipher, the plaintext is written horizontally with a fixed number of characters on each row. The cipher text is obtained by reading each column of the grid \cite{appcrypt}. Transposition ciphers are commonly added to other ciphers to make them more secure.
 
-A technique to determine if a ciphertext is the result of a transposition cipher is to analyze the ciphertext with frequency analysis. If the ciphertext has the same frequencies as English, then the cipher is likely to be a transposition cipher \cite{appcrypt}.
+A technique to determine if a ciphertext is the result of a transposition cipher is to analyze the ciphertext with frequency analysis. If the frequency analysis is performed on the ciphertext and the result is close to the frequency of normal English text, then the cipher is likely to be a transposition cipher \cite{appcrypt}.
 
 \subsection{Monoalphabetic Substitution Ciphers}
 
-A monoalphabetic substitution cipher uses a mapping from one alphabet to another.
-
-For convenience, we define a mapping $M$: $\{A,B,..., Z\} \rightarrow \mathbb{Z}_{26}$ where $A\mapsto 0$, $B\mapsto 1$, ... $Z\mapsto 25$.
+A monoalphabetic substitution cipher uses a mapping from one alphabet to another. For convenience converting between the English alphabet and $\mathbb{Z}_{26}$, a mapping $M$: $\{A,B,..., Z\} \rightarrow \mathbb{Z}_{26}$ is defined where $A\mapsto 0$, $B\mapsto 1$, ... $Z\mapsto 25$. Then $M^{-1}$ is defined to be $0\mapsto A$, $1\mapsto B$, ... $25\mapsto Z$.
 
 \subsubsection{Shift Ciphers}
 Shift ciphers work by shifting the symbols in the plaintext by an amount. For example, if we are using the English alphabet, then there are $n=26$ possible symbols. We could then choose some $k$, $0<k<n$ for our key. In our notation, this would look like
@@ -152,8 +150,8 @@ $$D(c_i, k_j)=M^{-1}(M(c_i)-M(k_j)\text{ (mod 26)})=p_i.$$
 
 If we know the length of the key is $n$, then the function could also defined as
 
-$$E(p_i, k_i)=M^{-1}(M(p_i)+M(k_{i\text{ (mod $n$)}}) \text{ (mod 26)})$$
-$$D(c_i, k_i)=M^{-1}(M(c_i)-M(k_{i\text{ (mod $n$)}}) \text{ (mod 26)})$$
+$$E(p_i, k_i)=M^{-1}(M(p_i)+M(k_{i\text{ (mod $n$)}}) \text{ (mod 26)})=c_i$$
+$$D(c_i, k_i)=M^{-1}(M(c_i)-M(k_{i\text{ (mod $n$)}}) \text{ (mod 26)})=p_i.$$
 
 \subsubsection{One Time Pad}
 The one time pad is a special Vigen\`{e}re cipher where
@@ -162,10 +160,12 @@ The one time pad is a special Vigen\`{e}re cipher where
 	\item the key is random, and
 	\item the same key is not used to encrypt two different plain texts.
 \end{itemize}
-There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}. Instead of using a Vigen\`{e}re cipher, modern implementations use the binary XOR operation to combine ciphertext and plaintext since enciphering and deciphering are the same operation and thus much simper.
+Instead of using a Vigen\`{e}re cipher, modern implementations use the binary XOR operation to combine ciphertext and plaintext since enciphering and deciphering are the same operation and thus much simper.
+
+There is no statistical analysis that can be applied to the ciphertext \cite[pg. 393]{compsec}. This is because if each key is equally likely to occur, then each ciphertext is equally likely to occur. Take, for example, the plaintext $p_1=ATTACK$. If $p_1$ is then encrypted using the key $k_1=ZGRBNL$ then $E(p_1,k_1)=ZZKBPV$. By looking at the Vigen\`{e}re square, a new key $k_2$ can be generated for any $p_2$ of the same length as $p_1$ such that $E(p_2,k_2)=ZZKBPV$. So if the desired plaintext is $p_2=DEFEND$, the corresponding key $k_2=WVFXCS$.
 
 \subsubsection{The Enigma Machine}
-The Enigma machine was a German encryption/decryption machine used extensively during World War 2. The Enigma machine consisted of a keyboard, a display, a plugboard, multiple scrambling rotors, and a reflector. When a charcter is entered via the keyboard, an electrical signal is sent first through the plugboard. The plugboard allows pairs of letters to be swapped. Next, the signal goes through the scramblers. Each scrambler acts as a substitution cipher. The reflector then reflects the signal back through the scramblers in the reverse order. Finally, the signal is shown on the corresponding letter on the display. The Enigma machine had a possible 10,000,000,000,000,000 settings \cite[pg. 136]{codebook}.
+The Enigma machine was a German encryption/decryption machine used extensively during World War 2. The Enigma machine consisted of a keyboard, a display, a plugboard, multiple scrambling rotors, and a reflector. When a charcter is entered via the keyboard, an electrical signal is sent first through the plugboard. The plugboard allows pairs of letters to be swapped. Next, the signal goes through the scramblers. Each scrambler acts as a substitution cipher. The reflector then reflects the signal back through the scramblers in the reverse order. Finally, the signal is shown on the corresponding letter on the display. The Enigma machine has a possible 10,000,000,000,000,000 settings \cite[pg. 136]{codebook}.
 
 \subsection{Frequency Analysis}
 \subsubsection{Frequency Analysis on Monoalphabetic Substitution Ciphers}
@@ -261,13 +261,15 @@ Breaking a polyalphabetic cipher is more difficut than a monoalphabetic cipher. 
 
 \section{Modern Cryptography}
 \subsection{One Way Hashing}
-One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. There should also be no $H^{-1}(c)=p$ (otherwise it would not be one way). To break an ideal one way hash algorithm, the fastest way should be using brute force.
+One way hashing is a technique commonly used to store passwords. The idea is to take an input set of plaintext $P$ and map it to an output hash set $C$ using the function $H(p)=c$. Computing $H^{-1}(c)=p$ should be much more computationally difficult that computing $H(p)=c$. To break an ideal one way hash algorithm, the fastest way should be using brute force.
 
 One way hash functions can be used to authentication. If Alice registers a secret key with bob previously, such as a password, Bob can hash and store the key. When Alice wants to verify her identity to Bob, she sends her key to Bob. Bob then hashes the key and if it matches the stored version, then Alice is authenticated. This is safer than Bob storing the key since it is difficult for Bob (or an attacker) to recover the key from the output of the hash function \cite[pg. 52]{appcrypt}
 
 Brute force will always work on a hashing algorithm, but it is often infeasible to complete in any meaningful time. Another attack that may be practical is the birthday attack. The \textit{birthday attack} finds 2 input messages $m$ and $m'$ such that $H(m)=H(m')$ \cite{appcrypt}.
 
-Another attack against one way hashes is the dictionary attack. Using a large list of common passwords, a table of common passwords and their hashes can be created. The hash of the unkown password can then be searched for in the list of hashes \cite[pg. 52]{appcrypt}.
+An attack against password hashes is the dictionary attack. Using a large list of common passwords, a table of common passwords and their hashes can be created. The hash of the unkown password can then be searched for in the list of hashes \cite[pg. 52]{appcrypt}.
+
+Another attack against hashes is the length extension attack. 
 
 \subsection{Private Key Cryptography}
 In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys. The security of private key cryptography resides in the length of the key and Alice and Bob keeping the key secret. There are two main types of private key ciphers: stream and block ciphers. Stream ciphers encrypt a constant stream of bytes while clock ciphers encrypt plaintext in descrete chunks.

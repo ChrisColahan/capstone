@@ -1,4 +1,6 @@
 
+import csv
+
 #utility function to convert alpha 
 #ASCII character to int in range [0,26] inclusive
 def ascii2modchar(char):
@@ -108,9 +110,30 @@ standard_freq_table = [
 	0.001#Z
 ]
 
+#test for accuracy with small amount of text
+def test(text):
+        out = csv.writer(open("shift_test_data.csv", "w", newline=''), delimiter=',',quoting=csv.QUOTE_ALL)
+        for i in range(4,100):
+                #print("testing length " + str(i))
+                testtext = text[:i]
+                accuracy = 0
+                for j in range(26):
+                        encoded = encode_str(testtext, j)
+                        freq_table = freq(encoded)
+                        foundshift = find_shift(standard_freq_table, freq_table)[0]
+                        if foundshift == j:
+                                accuracy += 1
+                #write out length, accuracy
+                row = [i,accuracy/26]
+                print("(" + str(row[0]) + "," + str(row[1]) + ")", end=' ')
+                out.writerow(row)
+
 #from huckelberry fin text from http://www.gutenberg.org/ebooks/76
 string = open('huckelberryfinn.txt', encoding='utf-8').read()
-key = 12
+key = 14
+
+#for testing the limits of the frequency analysis
+#string = string[:30] #only use first x characters
 
 encoded = encode_str(string, key)
 freq_table = freq(encoded)
@@ -118,4 +141,6 @@ print("frequency table:")
 for i in range(26):
 	print(modchar2ascii(i) + " : " + "{0:.3f}".format(freq_table[i]) + "%")
 print(find_shift(standard_freq_table, freq_table))
+
+test(string)
 

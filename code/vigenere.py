@@ -1,3 +1,5 @@
+import csv
+import random
 
 #table from paper (The code book, Singh)
 standard_freq_table = [
@@ -151,8 +153,8 @@ def find_key(ciphertext, standard_freq_table):
 			if err < min_err and (key_len % min_len is not 0 or min_err / 2 > err):
 				min_err = err
 				min_len = key_len
-				print(err)
-				print("new min length:" + str(min_len))
+				#print(err)
+				#print("new min length:" + str(min_len))
 		key_len += 1
 	
 	#now that the key lenth is known, the key can be obtained by breaking each of the key characters
@@ -174,8 +176,35 @@ def find_key(ciphertext, standard_freq_table):
 				least_shift = i
 		#add the new key character to the key string
 		key += modchar2ascii(least_shift)
-		print("found new charcter in key: " + modchar2ascii(least_shift))
+		#print("found new charcter in key: " + modchar2ascii(least_shift))
 	return key
+
+def test_same_key(text, key_len):
+        out = csv.writer(open("vigenere_test_data.csv", "w", newline=''), delimiter=',',quoting=csv.QUOTE_ALL)
+        for i in range(4,1000):
+                #print("testing length " + str(i))
+                testtext = text[:i]
+                accuracy = 0.0
+
+                #random key of key_len length
+                key = ''.join(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for _ in range(key_len))
+                encoded = encode_str(testtext, key)
+                found_key = find_key(encoded, standard_freq_table)
+
+                #calculate accuracy
+                if key_len == len(found_key):
+                        for j in range(len(key)):
+                                if found_key[j] == key[j]:
+                                        accuracy += 1.0
+                else:
+                        accuracy = 0.0
+                accuracy /= float(len(found_key))
+                
+                #write out length, accuracy
+                print("(" + str(i) + "," + str(accuracy) + ")", end=' ')
+                out.writerow([i,accuracy])
+
+
 
 #from huckelberry fin text from http://www.gutenberg.org/ebooks/76
 string = open('huckelberryfinn.txt', encoding='utf-8').read()
@@ -184,10 +213,11 @@ key = "MYSUPERSECRETKEY"
 #print(string)
 #print("\n\n\n")
 encoded = encode_str(string, key)
-print(encoded)
+#print(encoded)
 print("\n\n\n")
 decoded = decode_str(encoded, key)
-print(decoded)
+#print(decoded)
 print("\n\n\n")
-print(find_key(encoded, standard_freq_table))
+#print(find_key(encoded, standard_freq_table))
 
+test_same_key(string, 5)

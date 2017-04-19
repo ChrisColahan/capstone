@@ -64,7 +64,7 @@ Cryptography is used every day to secure private information. Since the inventio
 millennia ago, ciphers have been continuously created and broken. The history of cryptography and
 cryptanalysis is examined, starting with the transposition and monoalphabetic substitution ciphers of the
 ancient Greeks and Romans. Next, frequency analysis is examined as a technique to break monoalphabetic
-and polyalphabetic substitution ciphers. Finally, modern cryptography is examined.
+and polyalphabetic substitution ciphers and an example implementation is provided. Finally, modern cryptography and various cryptanalysis techniques are examined.
 
 \section{Antiquated Cryptography}
 \subsection{Transposition Ciphers}
@@ -349,14 +349,18 @@ An attack against password hashes is the dictionary attack. Using a large list o
 Another attack against hashes is the length extension attack. 
 
 \subsection{Private Key Cryptography}
-In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys. The security of private key cryptography resides in the length of the key and Alice and Bob keeping the key secret. There are two main types of private key ciphers: stream and block ciphers. Stream ciphers encrypt a continuous stream of bytes while clock ciphers encrypt plaintext in descrete chunks.
+In private key cryptography, both users Alice and Bob who wish to communicate securely must have each others secret keys. The ciphers covered earlier in this paper are all private key algorithms. The security of private key cryptography resides in the length of the key and Alice and Bob keeping the key secret. There are two main types of private key ciphers: stream and block ciphers. Stream ciphers encrypt a continuous stream of bytes while clock ciphers encrypt plaintext in descrete chunks.
 
 \subsection{Public Key Cryptography}
-In public key cryptography each user has two keys, a private key $k_{pri}$ and a public key $k_{pub}$. $k_{pub}$ is used for encrypting messages, while $k_{pri}$ is used for decrypting messages. Unfortunately, every user must have a list of the public keys for all users they wish to communicate with.
+Public key cryptography was first proposed in 1976 \cite[pg. 100]{absalg}\cite{diffiehellman}. In public key cryptography each user has two keys, a private key $k_{pri}$ and a public key $k_{pub}$. $k_{pub}$ is used for encrypting messages, while $k_{pri}$ is used for decrypting messages. Unfortunately, every user must have a list of the public keys for all users they wish to communicate with.
 
 When a user Alice wants to send a message to another user Bob, Alice encrypts the message with Bob's public key. Since Bob is the only one with his private key, he is the only one who can decrypt the message, thus providing secure communication if the algorithm is encryption and decryption algorithm is secure.
 
-Typically, a public key algorithm such as RSA is slow and thus not very feasible fo the real time applications in use today. However, public key cryptography algorithms are commonly used to exchange a key for use with private key algorithms such as AES.
+Typically, a public key cryptosystem such as RSA is slow and thus not very feasible fo the real time applications in use today. However, public key cryptography algorithms are commonly used to exchange a key for use with private key algorithms such as AES.
+
+The RSA cryptosystem works as follows: First, choose two large (150 digit) prime numbers $p$ and $q$. Then compute $m=(p-1)(q-1)$ and $n=pq$. Next, choose a random number $E$ such that gcd($E,m$)$=1$. Then using the Euclidean algorithm, find a number D such taht $DE\equiv 1\text{ }(\text{mod }m)$. The numbers $n$ and $E$ can then be made public.
+
+Suppose Bob wants to send a number $x<n$ to Alice, having $E$ and $n$ from Alice. Then Bob computes $y=x^E\text{ } (\text{mod }n)$ and sends $y$ to Alice. Alice can then compute $x=y^D\text{ }(\text{mod }n)$ \cite[pg. 101]{absalg}. Since text can be represented as a large number, then messages can be sent using this system.
 
 \subsubsection{Certificate Authorities}
 A Certificate Authority (CA) solves the problem of keeping track of keys. Instead of having a key for every other person, the CA keeps them all and each user just has the key of the CA. When the user Alice wants to communicate with Bob, Alice asks the CA for Bob's key via a secure channel. Once Alice gets Bob's key, Alice then can communicate securely with Bob without involving the CA again.
@@ -377,19 +381,19 @@ If an attacker can observe and control all communications between two parties, t
 Side channel attacks use information from side channels. The information gathered from a side channel is anything that is neither plaintext to be encrypted nor ciphertext from the resulting encryption process. Some examples of information that can be gathered during a side channel attack are timing information (how long various operations take to complete), radiation, and power consumption. There are three main types of Side channel attacks: Timing, Power consumption, and Fault attacks\cite[pg. 2-3]{sidechannel}.
 
 \subsubsection{Timing Attacks}
-Timing attacks learn about secret keys being used in a cipher by using the information about how long an operation takes to complete \cite[pg 3]{sidechannel}. For example, a timing attack was performed on GnuPG that could recover, on average, 96.7\% of the bits in the secret key by using a cache timing attack \cite[pg. 719]{flushreload}. The exact implementation of the cryptographic algorithm needs to bee known ahead of time. Implementation details such as using exponentiation by squaring in GnuPGP or using the Chinese Remainder Theorem in RSA have been attacked since they involve iterative operations or varying length. Timing attacks can be combated by using constant time algorithms such that every iteration of an operation takes approximately the same amount of time to complete.
+Timing attacks learn about secret keys being used in a cipher by using the information about how long an operation takes to complete \cite[pg 3]{sidechannel}. For example, a timing attack was performed on GnuPG that could recover, on average, 96.7\% of the bits in the secret key by using a cache timing attack \cite[pg. 719]{flushreload}. The exact implementation of the cryptographic algorithm needs to bee known ahead of time. Implementation details such as using exponentiation by squaring in GnuPGP or using the Chinese Remainder Theorem in RSA have been attacked since they involve iterative operations or varying length. Using a chache template attack, an attacker can map out function calls and even the order of blocks of instructions called during encryption. This can give the attacker most of private key, but not all of the key can always be recovered since noise in the system such as the the operating system or other programs may use the cache often. Timing attacks can be combated by using constant time algorithms such that every iteration of an operation takes approximately the same amount of time to complete.
 
 \subsubsection{Power Consumption Attacks}
-Power consumption attacks determine an encryption key by monitoring the power consumption of a unit while it encrypts plaintext \cite[pg. 6]{sidechannel}. Since each operation on the microprocessor consumes a certain amount of electricity, the order of the operations executing in the microprocessor can be determined and the key can be retrieved.
+Power consumption attacks determine an encryption key by monitoring the power consumption of a unit while it encrypts plaintext \cite[pg. 6]{sidechannel}. Since each operation on the microprocessor consumes a certain amount of electricity, the order of the operations executing in the microprocessor can be determined and the key can be retrieved. If the voltages over time are plotted out in a graph, an attacker could read the operations performed. Since there are many other factors such as radiation or random changes in voltage the key can not always be completely recovered, but the remaining unknown parts of the key can be recovered via brute force depending on the amount of key left to find. This is similar to timing attacks.
 
 \subsubsection{Fault Attacks}
 Fault attacks analyze the data from when a fault is created in the system. Faults can be created by tampering with the power voltage, tampering with the system clock, or applying radiation to the circuitry. Differential fault attacks are performed by encrypting the plaintext twice, once normally, and once with a fault, and comparing the resultant ciphertexts for differences \cite[pg. 7]{sidechannel}.
 
 \subsection{Differential Cryptanalysis}
-Differential cryptanalysis is a chosen plaintext attack technique on iterative block ciphers. The attack works by analyzing ciphertext/plaintext pairs encrypted with the same key and the changes propagated in the ciphertext by changing the plaintext. As the differences are analyzed, probabilities can be assigned to keys for how likely each key are to be the correct key. Differential cryptanalysis requires many pairs to be analyzed, so this attack is not practical for most ciphers\cite[pg. 285-290]{appcrypt}.
+Differential cryptanalysis is a chosen plaintext attack technique on iterative block ciphers. The attack works by analyzing ciphertext/plaintext pairs encrypted with the same key and the changes propagated in the ciphertext by changing the plaintext. As the differences are analyzed, probabilities can be assigned to keys for how likely each key are to be the correct key. Differential cryptanalysis requires many pairs to be analyzed, so the amount of memory and time make this attack is not practical for most ciphers\cite[pg. 285-290]{appcrypt}.
 
 \section{Conclusion}
-
+Ciphers have been used throughout history and have continued to evolve. Ciphers  and attacks against them have grown in magnitudes of complexity since the introduction of programmable computers. The shift cipher is simple to understand and implement, but is also simple to break using frequency analysis. The Vigen\`{e}re cipher is somewhat more complex to implement and attack, but is susceptible to a modified version of the same frequency analysis attack. The effect of the accuracy of frequency analysis on the Vigen\`{e}re cipher with various key lengths was examined. One way hasing and public and private cryptography where covered. Additionally, man in the middle, side channel, and differential attacks were covered.
 
 %references page
 \newpage

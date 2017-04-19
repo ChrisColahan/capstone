@@ -39,7 +39,7 @@
 
 \setlength{\headheight}{18pt} 
 
-\title{A history of cryptography and cryptanalysis}
+\title{A History of Cryptography and Cryptanalysis}
 \date{\today}
 \author{Christopher Colahan\\ Simpson College}
 
@@ -295,6 +295,21 @@ There are sevaral types of cryptanalytic attacks that can be performed on a cryp
 
 \subsection{Man in the Middle Attacks}
 If an attacker can observe and control all communications between two parties, they might be able to read or interfere with the conversation. For example, assume that Alice and Bob are trying to communicate and Mallory is in the middle and can control all their messages. When Alice sends Bob her public key, Mallory intercepts the key and replaces it with her public key. Then when Bob sends Alice his public key, Mallory intercepts it and replaces it with her public key. Now when either Bob or Alice send a message to each other, Mallory can read or alter the message \cite[pg. 48]{appcrypt}. An authentication step is needed in the key exchange algorithm to ensure that Bob is really talking to Alice and vice versa.
+
+\subsection{Side-Channel Attacks}
+Side channel attacks use information from side channels. The information gathered from a side channel is anything that is neither plaintext to be encrypted nor ciphertext from the resulting encryption process. Some examples of information that can be gathered during a side channel attack are timing information (how long various operations take to complete), radiation, and power consumption. There are three main types of Side channel attacks: Timing, Power consumption, and Fault attacks\cite[pg. 2-3]{sidechannel}.
+
+\subsubsection{Timing Attacks}
+Timing attacks learn about secret keys being used in a cipher by using the information about how long an operation takes to complete \cite[pg 3]{sidechannel}. For example, a timing attack was performed on GnuPG that could recover, on average, 96.7\% of the bits in the secret key by using a cache timing attack \cite[pg. 719]{flushreload}. The exact implementation of the cryptographic algorithm needs to bee known ahead of time. Implementation details such as using exponentiation by squaring in GnuPGP or using the Chinese Remainder Theorem in RSA have been attacked since they involve iterative operations or varying length. Timing attacks can be combated by using constant time algorithms such that every iteration of an operation takes approximately the same amount of time to complete.
+
+\subsubsection{Power Consumption Attacks}
+Power consumption attacks determine an encryption key by monitoring the power consumption of a unit while it encrypts plaintext \cite[pg. 6]{sidechannel}. Since each operation on the microprocessor consumes a certain amount of electricity, the order of the operations executing in the microprocessor can be determined and the key can be retrieved.
+
+\subsubsection{Fault Attacks}
+Fault attacks analyze the data from when a fault is created in the system. Faults can be created by tampering with the power voltage, tampering with the system clock, or applying radiation to the circuitry. Differential fault attacks are performed by encrypting the plaintext twice, once normally, and once with a fault, and comparing the resultant ciphertexts for differences \cite[pg. 7]{sidechannel}.
+
+\subsection{Differential Cryptanalysis}
+Differential cryptanalysis is a chosen plaintext attack technique on iterative block ciphers. \cite{diffanalysis}
 
 %references page
 \newpage

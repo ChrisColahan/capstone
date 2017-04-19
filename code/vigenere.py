@@ -124,8 +124,8 @@ def find_err(standard_freq_table, cipher_freq_table, shift):
 	#calculate avg freq difference from shifted tables
 	err = 0
 	for i in range(1,26):
-		#calculate least squares difference
-		err += (standard_freq_table[i] - cipher_freq_table[(i + shift) % 26])**2
+		#calculate chi-squared
+		err += ((cipher_freq_table[(i + shift) % 26] - standard_freq_table[i])**2) / standard_freq_table[i]
 	return err
 #frequency analysis for vigenere cipher
 def find_key(ciphertext, standard_freq_table):
@@ -178,7 +178,7 @@ def find_key(ciphertext, standard_freq_table):
 	return key
 
 #from huckelberry fin text from http://www.gutenberg.org/ebooks/76
-string = open('huckelberryfinn.txt').read()
+string = open('huckelberryfinn.txt', encoding='utf-8').read()
 key = "MYSUPERSECRETKEY"
 
 #print(string)

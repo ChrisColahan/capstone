@@ -4,10 +4,12 @@ def find_err(cipher_freq_table, shift):
         #calculate avg freq difference from shifted tables
         err = 0
         for i in range(0,26):
-		#calculate least squares difference
+		#calculate chi-squared
                 standard_freq = standard_freq_table[i]
                 cipher_freq = cipher_freq_table[(i + shift) % 26]
-                err += (standard_freq - cipher_freq) ** 2
+                cipher_err = (standard_freq - cipher_freq) ** 2
+                cipher_err /= standard_freq
+                err += cipher_err
         return err/26
 
 #frequency analysis for vigenere cipher

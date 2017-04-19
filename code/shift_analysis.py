@@ -11,7 +11,7 @@ def find_shift(cipher_freq_table):
                 #calculate avg freq difference from shifted tables
                 err = 0
                 for j in range(0,26):
-                        #calculate least squares difference
+                        #calculate chi-squared
                         standard_freq = standard_freq_table[j]
                         cipher_freq = cipher_freq_table[(j + i) % 26]
                         err += (standard_freq - cipher_freq) ** 2

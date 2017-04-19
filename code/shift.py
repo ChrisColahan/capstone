@@ -73,8 +73,8 @@ def find_shift(standard_freq_table, cipher_freq_table):
 		#calculate avg freq difference from shifted tables
 		err = 0
 		for j in range(0,26):
-			#calculate least squares difference
-			err += (standard_freq_table[j] - cipher_freq_table[(j + i) % 26])**2
+			#calculate chi-squared
+			err += ((cipher_freq_table[(j + i) % 26] - standard_freq_table[j])**2) / standard_freq_table[j]
 		min_shift.append([i, err/26])
 	return list(map(lambda x: x[0], sorted(min_shift, key=lambda x: x[1])))
 

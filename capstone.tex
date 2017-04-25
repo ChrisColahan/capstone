@@ -64,7 +64,7 @@ Cryptography is used every day to secure private information. Since the inventio
 millennia ago, ciphers have been continuously created and broken. The history of cryptography and
 cryptanalysis is examined, starting with the transposition and monoalphabetic substitution ciphers of the
 ancient Greeks and Romans. Next, frequency analysis is examined as a technique to break monoalphabetic
-and polyalphabetic substitution ciphers and an example implementation is provided. Finally, modern cryptography and various cryptanalysis techniques are examined.
+and polyalphabetic substitution ciphers and an example implementation is provided. Modern cryptography and various cryptanalysis techniques are examined. Finally, possible areas of future research are presented.
 
 \section{Antiquated Cryptography}
 \subsection{Transposition Ciphers}
@@ -107,7 +107,7 @@ Figure \ref{vigsquare} shows the square used for encrypting and decrypting using
 	
 \begin{adjustbox}{max width=\textwidth}
 	
-	\begin{tabular}{| c || c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c ||}
+	\begin{tabular}{| c || c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
 		\hline
 		 & A & B & C & D & E & F & G & H & I & J & K & L & M & N & O & P & Q & R & S & T & U & V & W & X & Y & Z \\
 		\hline\hline
@@ -392,8 +392,11 @@ Fault attacks analyze the data from when a fault is created in the system. Fault
 \subsection{Differential Cryptanalysis}
 Differential cryptanalysis is a chosen plaintext attack technique on iterative block ciphers. The attack works by analyzing ciphertext/plaintext pairs encrypted with the same key and the changes propagated in the ciphertext by changing the plaintext. As the differences are analyzed, probabilities can be assigned to keys for how likely each key are to be the correct key. Differential cryptanalysis requires many pairs to be analyzed, so the amount of memory and time make this attack is not practical for most ciphers\cite[pg. 285-290]{appcrypt}.
 
+\section{Future Research}
+One possible topic in future research is to analyze and implement attacks on the Enigma machine. Another possible future research topic is to examine differential cryptanalysis. Yet another topic would be to analyze and implement attacks against more recent ciphers and hashing algorithms such as MD5, SHA1, and DES. Finally, a possible research topic is to implement man in the middle and side channel attacks such as shown in \cite{flushreload}.
+
 \section{Conclusion}
-Ciphers have been used throughout history and have continued to evolve. Ciphers  and attacks against them have grown in magnitudes of complexity since the introduction of programmable computers. The shift cipher is simple to understand and implement, but is also simple to break using frequency analysis. The Vigen\`{e}re cipher is somewhat more complex to implement and attack, but is susceptible to a modified version of the same frequency analysis attack. The effect of the accuracy of frequency analysis on the Vigen\`{e}re cipher with various key lengths was examined. One way hasing and public and private cryptography where covered. Additionally, man in the middle, side channel, and differential attacks were covered.
+Ciphers have been used throughout history and have continued to evolve. Ciphers  and attacks against them have grown in magnitudes of complexity since the introduction of programmable computers. The shift cipher is simple to understand and implement, but is also simple to break using frequency analysis. The Vigen\`{e}re cipher is somewhat more complex to implement and attack, but is susceptible to a modified version of the same frequency analysis attack. The effect of the accuracy of frequency analysis on the Vigen\`{e}re cipher with various key lengths was examined. One way hasing and public and private cryptography where covered. Additionally, man in the middle, side channel, and differential attacks were covered. Finally, areas of future research were presented.
 
 %references page
 \newpage
